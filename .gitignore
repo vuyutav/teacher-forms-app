@@ -1,0 +1,25 @@
+# Python virtual environment — huge folder, not needed on GitHub
+backend/venv/
+
+# Python compiled files — auto-generated, not needed
+backend/__pycache__/
+backend/*.pyc
+
+# Secret environment variables — NEVER upload these
+backend/.env
+frontend/.env.local
+frontend/.env
+
+# Next.js build output — auto-generated when you deploy
+frontend/.next/
+
+# Node packages — huge, teammates reinstall with "npm install"
+frontend/node_modules/
+
+# Flask instance folder
+backend/instance/
+
+# Operating system files — useless noise
+.DS_Store
+Thumbs.db
+*.log
