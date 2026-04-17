@@ -1,46 +1,35 @@
-# app.py
-# This is the main entry point for the Flask application.
-# It creates the app, loads config, registers routes, and starts the server.
-
+# app.py — Final version
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
 
 def create_app():
-    # create_app() is a "factory function" — it builds and returns
-    # the Flask app. This pattern makes testing easier later.
-
     app = Flask(__name__)
-
-    # Load all settings from config.py
     app.config.from_object(Config)
 
-    # Initialize the database with this app
-    # db.init_app() links the SQLAlchemy instance to our Flask app
+    # Initialize extensions
     db.init_app(app)
+    JWTManager(app)
+    # JWTManager handles all JWT token creation and validation.
+    # Once initialized, you can use @jwt_required() on any route.
 
-    # Enable CORS — Cross-Origin Resource Sharing.
-    # Without this, your Next.js frontend (localhost:3000) would be
-    # BLOCKED from calling your Flask API (localhost:5000) by the browser.
-    # Browsers block requests between different ports/domains by default
-    # for security. CORS tells Flask to allow it.
     CORS(app, resources={r"/api/*": {"origins": "*"}})
-    # r"/api/*" = only allow CORS on routes starting with /api/
-    # origins="*" = allow from any domain (we'll restrict this in production)
 
-    # Health check route — useful to verify the API is running
+    # Register blueprints — this connects our route files to the app.
+    # url_prefix means every route in auth_bp starts with /api/auth
+    from routes import auth_bp, forms_bp, responses_bp
+    app.register_blueprint(auth_bp,      url_prefix='/api/auth')
+    app.register_blueprint(forms_bp,     url_prefix='/api')
+    app.register_blueprint(responses_bp, url_prefix='/api')
+
     @app.route('/api/health')
     def health():
-        return jsonify({
-            "status": "Furina's court is open!",
-            "version": "1.0"
-        })
+        return jsonify({"status": "Furina's court is open!", "version": "1.0"})
 
     return app
 
-# Only runs when you execute: python app.py
-# Not when imported by another file
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True, port=5000)

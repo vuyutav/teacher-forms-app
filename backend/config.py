@@ -23,3 +23,6 @@ class Config:
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'fallback-secret')
     # Used to sign JWT login tokens.
     # If JWT_SECRET_KEY isn't in .env, uses 'fallback-secret' (dev only)
+
+# This print statement is just for debugging to confirm the database URI is loaded correctly.
+#print(f"DEBUG: Database URI is: {Config.SQLALCHEMY_DATABASE_URI}")
