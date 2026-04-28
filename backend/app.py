@@ -24,9 +24,13 @@ def create_app():
     app.register_blueprint(forms_bp,     url_prefix='/api')
     app.register_blueprint(responses_bp, url_prefix='/api')
 
+    @app.route('/')
+    def index():
+        return jsonify({"message": "Welcome to Furina's Form by Ibrahim API!"})
+
     @app.route('/api/health')
     def health():
-        return jsonify({"status": "Furina's court is open!", "version": "1.0"})
+        return jsonify({"status": "Furina's form by Ibrahim is open!", "version": "1.0"})
 
     return app
 
