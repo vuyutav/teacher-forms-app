@@ -188,3 +188,19 @@ def add_question(form_id):
         'message':  'Question added',
         'question': question.to_dict()
     }), 201
+
+# ─────────────────────────────────────────────
+# PUBLIC GET FORM — GET /api/public/forms/<id>
+# No authentication required (for students)
+# ─────────────────────────────────────────────
+@forms_bp.route('/public/forms/<int:form_id>', methods=['GET'])
+def get_public_form(form_id):
+    form = Form.query.get(form_id)
+
+    if not form or not form.is_published:
+        return jsonify({'error': 'Form not found'}), 404
+
+    form_data = form.to_dict()
+    form_data['questions'] = [q.to_dict() for q in form.questions]
+
+    return jsonify({'form': form_data}), 200
