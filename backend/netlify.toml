@@ -1,0 +1,25 @@
+# netlify.toml
+# Netlify reads this file to know how to build and route your backend.
+
+[build]
+  # Where Netlify looks for your functions
+  functions = "netlify/functions"
+
+  # Command to install your Python dependencies before deploying
+  command = "pip install -r requirements.txt"
+
+[functions]
+  # Tell Netlify your functions are Python, not JavaScript
+  node_bundler = "esbuild"
+
+# This redirect rule is the most important part.
+# It tells Netlify: "any request to /api/* should be
+# handled by the api function in netlify/functions/api.py"
+# Without this, visiting /api/health would return 404.
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200
+  # :splat captures everything after /api/ and passes it through
+  # So /api/auth/login becomes /.netlify/functions/api/auth/login
+  # Flask receives the full path and routes it correctly

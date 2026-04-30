@@ -1,9 +1,10 @@
-# app.py — production-ready version
+# app.py
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
+from mangum import Mangum
 import os
 
 def create_app():
@@ -13,18 +14,10 @@ def create_app():
     db.init_app(app)
     JWTManager(app)
 
-    # Read allowed origins from environment variable.
-    # In development: * (allow all)
-    # In production: only your Vercel URL
     allowed_origins = os.getenv('ALLOWED_ORIGINS', '*')
-    # os.getenv returns the value of ALLOWED_ORIGINS from .env
-    # If not set, defaults to '*' so local dev still works
-
     CORS(app, resources={
         r"/api/*": {
             "origins": allowed_origins.split(',')
-            # .split(',') converts "url1,url2" string into ["url1","url2"] list
-            # This lets you allow multiple origins if needed
         }
     })
 
@@ -39,8 +32,12 @@ def create_app():
 
     return app
 
+# This is what Netlify calls instead of gunicorn.
+# Mangum wraps your Flask app so Netlify's serverless
+# runtime can talk to it using the standard ASGI/WSGI interface.
+app = create_app()
+handler = Mangum(app)
+
+# Local development still works the same way
 if __name__ == '__main__':
-    app = create_app()
-    # In production Render runs gunicorn, not this line.
-    # This only runs locally.
-    app.run(debug=False, port=5000)
+    app.run(debug=True, port=5000)
