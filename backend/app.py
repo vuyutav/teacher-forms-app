@@ -4,7 +4,6 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
-from mangum import Mangum
 import os
 
 def create_app():
@@ -42,4 +41,5 @@ app = create_app()
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
     
+from mangum import Mangum
 handler = Mangum(app)
