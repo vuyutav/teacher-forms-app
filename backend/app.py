@@ -36,8 +36,10 @@ def create_app():
 # Mangum wraps your Flask app so Netlify's serverless
 # runtime can talk to it using the standard ASGI/WSGI interface.
 app = create_app()
-handler = Mangum(app)
+
 
 # Local development still works the same way
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+    
+handler = Mangum(app)

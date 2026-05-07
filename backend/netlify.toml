@@ -1,8 +1,13 @@
 [build]
-  functions = "netlify/functions"
   command = "pip install -r requirements.txt"
+  functions = "netlify/functions"
+  publish = "."
+
+[functions]
+  python_runtime = "3.10"
 
 [[redirects]]
-  from   = "/api/*"
-  to     = "/.netlify/functions/api/:splat"
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
   status = 200
+  force = true
