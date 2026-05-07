@@ -221,7 +221,7 @@ export default function LandingPage() {
                Ibrahim Rafii — Full Stack Developer</a>
               </li>
               <li><a href="https://www.instagram.com/rrkingloved/" target="_blank" rel="noopener noreferrer" className="link-underline">
-                Ravi Kinglove — Asset Specialist
+                Rizky Ravi Kinglove — Asset Specialist
               </a></li>
               <li><a href="https://www.instagram.com/yaser_as1/" target="_blank" rel="noopener noreferrer" className="link-underline">
                 M. Yaser Asysauqi — Technical Writer
