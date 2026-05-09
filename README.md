@@ -12,15 +12,15 @@ membagikannya kepada siswa, dan melihat respons.
 ## Pengembangan Lokal
 
 ### Backend
-cd backend
-python -m venv venv
-venv\Scripts\activate        # Windows
-pip install -r requirements.txt
+cd backend |
+python -m venv venv |
+venv\Scripts\activate # windows |
+pip install -r requirements.txt |
 python app.py
 
 ### Frontend
-cd frontend
-npm install
+cd frontend |
+npm install |
 npm run dev
 
 ## Strategi Branch Tim
