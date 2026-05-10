@@ -118,6 +118,6 @@ export async function submitResponse(formId: string, data: object) {
 
 // ── Public form (for students) ─────────────────
 export async function getPublicForm(formId: string) {
-  const res = await fetch(`http://localhost:5000/api/public/forms/${formId}`)
+  const res = await fetch(`${API_URL}/api/public/forms/${formId}`)
   return res.json()
 }
